@@ -9,8 +9,7 @@ import os
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 app = FastAPI(
-    title="YouTube Transcript Notes API",
-    root_path="/api"
+    title="YouTube Transcript Notes API"
 )
 
 

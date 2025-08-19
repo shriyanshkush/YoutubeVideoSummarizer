@@ -8,7 +8,11 @@ import os
 # --- Configure Gemini from env ---
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-app = FastAPI(title="YouTube Transcript Notes API")
+app = FastAPI(
+    title="YouTube Transcript Notes API",
+    root_path="/api"
+)
+
 
 def get_video_id(url: str):
     parsed = urlparse(url)

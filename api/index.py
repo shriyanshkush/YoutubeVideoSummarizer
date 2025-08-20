@@ -12,6 +12,15 @@ app = FastAPI(
     title="YouTube Transcript Notes API"
 )
 
+# --- Allow CORS (important for frontend apps) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # ⚠️ change to specific domains in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def get_video_id(url: str):
     parsed = urlparse(url)
@@ -29,6 +38,7 @@ def get_video_id(url: str):
         return path.lstrip("/")
     return None
 
+
 PROMPT = (
     "Read the full transcript below and create point-wise notes that cover the intro, "
     "main ideas, examples, and conclusion. Remove fillers, paraphrase concisely, and "
@@ -37,9 +47,11 @@ PROMPT = (
     "Transcript:\n"
 )
 
+
 @app.get("/")
 def health():
     return {"ok": True}
+
 
 @app.get("/summarize")
 def summarize(youtube_url: str = Query(..., description="Full YouTube URL")):
@@ -48,21 +60,23 @@ def summarize(youtube_url: str = Query(..., description="Full YouTube URL")):
         if not video_id:
             raise HTTPException(status_code=400, detail="Invalid YouTube URL")
 
-        # fetch transcript
+        # --- fetch transcript (instance style, matches your Streamlit code) ---
         try:
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            ytt_api = YouTubeTranscriptApi()
+            fetched = ytt_api.fetch(video_id)
+            raw_data = fetched.to_raw_data()
+            transcript_text = " ".join([entry["text"] for entry in raw_data])
         except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable) as e:
             raise HTTPException(status_code=404, detail=f"No transcript available: {e}")
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Transcript error: {e}")
 
-        transcript_text = " ".join(chunk["text"] for chunk in transcript)
-
-        # summarize with Gemini
+        # --- summarize with Gemini ---
         model = genai.GenerativeModel("gemini-1.5-flash")
         resp = model.generate_content(PROMPT + transcript_text)
 
         return {"video_id": video_id, "notes": resp.text}
+
     except HTTPException:
         raise
     except Exception as e:

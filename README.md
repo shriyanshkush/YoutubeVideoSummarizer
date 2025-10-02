@@ -24,7 +24,11 @@ Perfect for students, researchers, and content creators who want **concise, high
 
 ## 📂 Project Structure
 
-`. ├── main.py           # FastAPI app with endpoints ├── requirements.txt  # Python dependencies ├── README.md         # Project documentation`
+`# ├── app/index.py # FastAPI app with endpoints
+
+# ├── requirements.txt # Python dependencies
+
+# ├── README.md # Project documentation`
 
 * * *
 
@@ -32,7 +36,7 @@ Perfect for students, researchers, and content creators who want **concise, high
 
 ### 1️⃣ Clone Repo
 
-`git clone https://github.com/your-username/youtube-notes-api.git cd youtube-notes-api`
+`[https://github.com/shriyanshkush/YoutubeVideoSummarizer]`
 
 ### 2️⃣ Create Virtual Environment
 
@@ -47,19 +51,6 @@ Perfect for students, researchers, and content creators who want **concise, high
 Create a `.env` file:
 
 `GEMINI_API_KEY=your_google_gemini_api_key_here`
-
-* * *
-
-## ▶️ Running the API
-
-`uvicorn main:app --reload`
-
-### API Docs available at:
-
-*   Swagger UI → `http://127.0.0.1:8000/docs`
-    
-*   ReDoc → `http://127.0.0.1:8000/redoc`
-    
 
 * * *
 

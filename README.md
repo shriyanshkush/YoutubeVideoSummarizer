@@ -24,11 +24,9 @@ Perfect for students, researchers, and content creators who want **concise, high
 
 ## 📂 Project Structure
 
-`# ├── app/index.py # FastAPI app with endpoints
-
-# ├── requirements.txt # Python dependencies
-
-# ├── README.md # Project documentation`
+├── app/index.py # FastAPI app with endpoints
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
 
 * * *
 
